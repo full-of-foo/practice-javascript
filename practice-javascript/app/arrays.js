@@ -62,4 +62,11 @@ export default () => {
     const a10 = [6, 4, 5, 'c', 'a', 'b'];
     console.log('Sort (mutable): ', a10.sort());
     console.log('Sort (mutable) with fn: ', a10.sort((curr, prev) => curr > 4 && prev <= 4));
+
+    const a11 = [1, 2, 3];
+    delete a11[1];
+    console.log('Deleted/never def elem: ', a11, a11.map(elem => 'trying to fill arr'));
+
+    const a12 = ['1', 2, '3', 'GO!'];
+    console.log('Joing elems as str on pattern: ', a12.join(','));
 };
