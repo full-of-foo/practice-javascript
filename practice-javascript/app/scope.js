@@ -113,3 +113,90 @@ console.log(`
      - scope manager, does baz exist in our current (global) scope? Nope. THROW REFERENCE ERROR!
        (This is because it is an undeclared RHS reference)
 `);
+
+console.log(`
+    var foo = function bar() {
+        var foo = 'baz';
+
+        function baz(foo) {
+            foo = bar;
+            foo;       // function...
+        }
+        baz();
+    };
+    foo();
+    bar();
+`);
+console.log(`
+    NOTE:
+     - function declarations: the 'function' keyword is the very first word in the statement.
+     - function expressions: the 'function' keyword is NOT the first word in the statement.
+     L1:
+     - this named fn expression creates function 'foo' in the global scope.
+     - 'bar' is only available in the enclosing scope (its own scope).
+    Named function expressions are awesome because:
+     - it allows us reference ourselves within our own scope (and pollute the outter lexical scope)
+     - unnamed fn expressions (anonymous) will not show up in stack traces
+     - named fns serves as documentation
+`);
+
+console.log(`
+    var foo;
+    try {
+        foo.length;
+    }
+    catch (err) {
+        console.log(err); // TypeError from 'foo.length'
+    }
+    console.log(err); // ReferenceError becuase 'err' its not available
+`);
+console.log(`
+    - NOTE: the 'fucntion' is NOT the ONLY atomic unit of scope in JS.
+    -- as of ES3 it was specificed that the catch clause was block scoped.
+    -- meaning, vars declared in a catch clauses are only available inside the clause.
+    - NOTE: IE6 does NOT follow this spec, all other engines do.
+`);
+
+console.log(`
+    - JS has a Lexical Scoping model.
+    -- Comes from: the lexing parsing stage in the complier.
+    -- Essentially means: compile-time scope. Hence, the complier decides your scope at compile time
+       in a nested fashion.
+    --- we seen that this happens as we recursively find declarations within scope blocks (fns and catches)
+`);
+
+console.log('Cheating Lexical Scope:');
+console.log(`
+    - Evil EVAL
+    -- it allows add declarations at runtime.
+    -- NOTE: inherently slows down code. Engine registered eval is being used.
+             It cannot optimise the lookups of the fn scope and global scope as it must assume
+             the worst-case scenario and invalidate the caching of those lookups.
+`);
+console.log(`
+    var bar = 'bar';
+    fucntion foo(str) {
+        eval(str); // cheating
+        console.log(bar); // 42
+    }
+    foo("var bar = 42;");
+`);
+console.log(`
+    - With keyword
+    -- helps one shorthand referencing an obj when accessing its props.
+    -- treats the 'with' block as a lexical scope (hence accidental globals can occur)
+    -- NOTE: complier will also deoptimise due to the use of the this kw
+    -- NOTE: 'with' is not available in strict mode
+`);
+console.log(`
+    var obj = {a:2, b:3, c:4};
+    obj.a = obj.b + obj.c;
+    obj.c = obj.b - obj.a;
+    with (obj) {
+        a = b + c;
+        c = b - a;
+        d = 3; // ? Go fish and find it (or create it)!
+    }
+    obj.d; // undefined
+    d; // 3 -- whep!
+`);
