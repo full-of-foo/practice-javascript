@@ -13,7 +13,7 @@ export default () => {
     console.log(`
         Variable declaration consists of two operations:
         1. declaration op: var foo
-        2. initialisation op: foo = 'bar'
+        2. execution/initialisation op: foo = 'bar'
         Both happen in two in different compliation phases
         (and actually are dealt with by different engines).
     `);
@@ -48,10 +48,11 @@ export default () => {
             - register the 'baz' indentifier into current scope (global)
     `);
     console.log(`
-        2: Initialisation:
+        2: Exection/Initialisation:
             - we remove all vars/lets/consts and 'execute' the code.
             - LHS: 'foo' (target), RHS: 'bar' (source)
             - when I have an LHS: scope manager, does foo exist? Is it in our current scope? Can I have its ref?
+            -- RHS gets assigned to LHS
             - the fn bar gets executed
             - LHS: 'foo', RHS: 'baz'
             - scope manager, does foo exist? Is it in our current scope? Can I have its ref?
@@ -60,6 +61,7 @@ export default () => {
             - scope manager, does foo exist? Is it in our current scope? Can I have its ref?
             - LHS: 'foo' , RHS: 'bam'
             - scope manager, does foo exist? Is it in our current scope? Can I have its ref?
+            -- RHS gets assigned to LHS
             - LHS: 'bam' , RHS: 'yay'
             - scope manager, does bam exist? Is it in our current scope? Nope
             - scope manager, does bam exist? Is it in our next (global) scope? Nope, so LET ME CREATE IT FOR YOU.
@@ -85,5 +87,29 @@ console.log(`
     foo;
     bam;
     baz();
-    // TODO - what happens here in terms of scope and execution?
+`);
+console.log(`
+    1. Find declarations:
+     - 'foo' (var) and 'bar' (fn) registered in global scope
+     - 'foo' (var) and 'baz' (fn) registered in 'bar' scope
+     - 'foo' (var) registered in 'baz' scope
+    2. Execute:
+     - LHS 'foo' assinged to RHS in global scope
+     - (L:13) RHS: indentifier 'bar'
+     - scope manager, does bar exist in our current (global) scope? Can I have it? (get back a fn obj)
+     - We call bar:
+     -- scope manager, does foo exist in our bar scope? Can I have it?
+     -- LHS: 'foo' assigned to RHS: 'baz'
+     -- (L:10) RHS: indentifier 'baz'
+     -- scope manager, does bar exist in our bar scope? Can I have it? (get back a fn obj)
+     -- We call baz:
+     --- scope manager, does foo exist in our baz scope? Can I have it?
+     --- LHS: 'foo' assigned to RHS: 'bam'
+     --- scope manager, does bam exist in our baz scope? No - go fish, in bar, no, in global, no. LET ME MAKE THAT 4 U!
+     --- LHS: 'bam' (global) assigned to RHS: 'yay'
+     - (L:14) RHS: indentifier 'foo'; finds gloal ref foo; returns 'bar'
+     - (L:15) RHS: indentifier 'bam'; finds gloal ref bam; returns 'yay'
+     - (L:16) RHS: indentifier 'baz'
+     - scope manager, does baz exist in our current (global) scope? Nope. THROW REFERENCE ERROR!
+       (This is because it is an undeclared RHS reference)
 `);
