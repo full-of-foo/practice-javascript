@@ -151,7 +151,7 @@ console.log(`
     console.log(err); // ReferenceError becuase 'err' its not available
 `);
 console.log(`
-    - NOTE: the 'fucntion' is NOT the ONLY atomic unit of scope in JS.
+    - NOTE: the 'function' is NOT the ONLY atomic unit of scope in JS.
     -- as of ES3 it was specificed that the catch clause was block scoped.
     -- meaning, vars declared in a catch clauses are only available inside the clause.
     - NOTE: IE6 does NOT follow this spec, all other engines do.
@@ -175,7 +175,7 @@ console.log(`
 `);
 console.log(`
     var bar = 'bar';
-    fucntion foo(str) {
+    function foo(str) {
         eval(str); // cheating
         console.log(bar); // 42
     }
@@ -199,4 +199,117 @@ console.log(`
     }
     obj.d; // undefined
     d; // 3 -- whep!
+`);
+
+console.log('IIFE Pattern:');
+console.log(`
+    - An Immediately Invoked Function Expression is a fn that runs as soon as it is defined.
+    - Fn expression gets compiled; Scope manager refers to it
+      (ie. the fn enclosed in parens) as an immediate RHS value (just like 'foo';)
+    - Note: although its not idiomatic, you should probably name these fns to help with debugging.
+`);
+console.log(`
+    var foo = 'foo';
+    (function(bar){
+        var foo = bar;
+        console.log(foo); // 'foo2'
+    })('foo2'); // donkey-ball approach (more Lisp-y)
+    console.log(foo); // 'foo'
+    (function(bar){
+        var foo = bar;
+        console.log(foo); // 'foo2'
+    }('foo2')); // Doug Crock approach
+`);
+
+console.log('Block scope:');
+console.log(`
+    - 'let' ('var's cousin) implicitly hijacks the scope of our current block, and adds the variable to that
+      block rather than the enclosing function.
+    - Allows us more closely follow the Principle of Least Disclosure.
+    - Allows for better garbage collection.
+    - Disadvantages:
+    -- all 'let' declarations must really go at the top of their blocks.
+    -- adds a mental overhead when refactoring (ie moving 'let' declarations around).
+    - 'let' blocks allow create explicit scope blocks. This did not make it in ES6.
+       We instead can just wrap codes in curly brackets (yes, this works).
+
+`);
+console.log(`
+    var bar = 'bar';
+    for(let i=0; i<bar.length; i++) {
+        console.log(bar.charAt(i));
+    }
+    console.log(i); // ReferenceError
+`);
+console.log(`
+    if(bar){
+        let baz = bar;
+        if(baz) {
+            let bam = baz;
+        }
+        console.log(bam); // ReferenceError
+    }
+    console.log(baz); // ReferenceError
+`);
+console.log(`
+    let (baz = 'baz') {
+        console.log(baz); // 'baz'
+    }
+    console.log(baz); // ReferenceError
+    {
+      baz = 'baz'
+      console.log(baz); // 'baz'
+    }
+    console.log(baz); // ReferenceError
+`);
+
+console.log('Hoisting:');
+console.log(`
+    a; // ?
+    b; // ?
+    var a = b;
+    var b = 2;
+    b; // 2
+    a; // ?
+`);
+console.log(`
+    - Remember: the runtime does not just execute statements line-by-line.
+    - First, it will compile the code. Finding the declarations first.
+      (and they conceptually get hoisted to the top of the scope)
+    - Note: function declarations get moved before variable declarations.
+    - Note: hoisting has to happen to support recursion!
+    - Note: 'lets' do not hoist.
+`);
+console.log(`
+    var a;
+    var b;
+    a; // undefined
+    b; // undefined
+    a = b;
+    b = 2;
+    b; // 2
+    a;  // undefined
+`);
+console.log(`
+    foo(); // 'foo'
+    var foo = 2;
+    function foo(){
+        console.log('bar');
+    }
+    function foo(){
+        console.log('foo');
+    }
+`);
+console.log(`
+    a(1); // 39
+    function a(foo){
+        if(foo > 20) return foo;
+        return b(foo+2);
+    }
+    function b(foo){
+        return c(foo) + 1;
+    }
+    function c(foo){
+        return a(foo*2);
+    }
 `);
