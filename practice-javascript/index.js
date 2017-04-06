@@ -3,6 +3,7 @@ import enumerableDemo from './app/enumerable';
 import cardGameDemo from './app/cardGame';
 import scopeDemo from './app/scope';
 import mathDemo from './app/math';
+import objectsDemo from './app/objects';
 
 console.log('Arrays Demo:');
 arraysDemo();
@@ -18,3 +19,6 @@ scopeDemo();
 
 console.log('Math Demo:');
 mathDemo();
+
+console.log('Objects Demo:');
+objectsDemo();
