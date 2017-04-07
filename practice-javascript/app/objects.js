@@ -73,8 +73,16 @@ export default () => {
     `);
 
     console.log(`
-        Property Enumeration (TODO)
-    `);
+        Property Enumeration:
+        - NOTE: never assume the order of object props/keys. Use Maps instead (ES5+)
+        - One can use 'for-in' loops, Object.keys (ES5+) and Object.getOwnPropertyNames (ES5+)
+        - When using 'for-in's, we are also enumerating actually inherited properties.
+        -- thus, we has gaurd iterations with hasOwnProperty to ensure the given prop is on the target obj.
+    `, Object.keys(obj2), Object.getOwnPropertyNames(obj2));
+    for (const p in obj2) {
+        if (!obj2.hasOwnProperty(p)) continue;
+        console.log(p);
+    }
 
     console.log(`
         Copying Objects (TODO)
