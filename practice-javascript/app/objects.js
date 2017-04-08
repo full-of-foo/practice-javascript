@@ -85,6 +85,24 @@ export default () => {
     }
 
     console.log(`
-        Copying Objects (TODO)
+        Copying Objects:
+        - when cloning/copying, consider shallow vs deep.
+        -- Shallow will copy object references.
+        -- Deep copy will create new cloned objects.
+        - TODO: finish (what about fns, arrays, objs)
     `);
+    console.log(`
+        var obj2 = {
+            c: true
+        };
+        var arr = [];
+        function foo() {};
+        var myObject = {
+            a: 2,
+            b: ob2,	// reference, not a copy!
+            c: arr,	// another reference!
+            d: foo
+        };
+        arr.push(obj2, obj);
+`);
 };
