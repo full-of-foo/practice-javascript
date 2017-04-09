@@ -104,5 +104,21 @@ export default () => {
             d: foo
         };
         arr.push(obj2, obj);
-`);
+    `);
+
+    console.log(`
+        Property Descriptors: TODO
+    `);
+
+    console.log(`
+        Property Existence: TODO
+    `);
+
+    console.log(`
+        Class Theory: TODO
+    `);
+
+    console.log(`
+        Class Mechanics: TODO
+    `);
 };
