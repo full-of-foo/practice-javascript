@@ -89,36 +89,53 @@ export default () => {
         - when cloning/copying, consider shallow vs deep.
         -- Shallow will copy object references.
         -- Deep copy will create new cloned objects.
-        - TODO: finish (what about fns, arrays, objs)
     `);
     console.log(`
+        var arr = [];
+        function foo() {};
         var obj2 = {
             c: true
         };
-        var arr = [];
-        function foo() {};
         var myObject = {
             a: 2,
-            b: ob2,	// reference, not a copy!
-            c: arr,	// another reference!
+            b: ob2,  // reference, not a copy!
+            c: arr,  // another reference!
             d: foo
         };
         arr.push(obj2, obj);
     `);
+    console.log(`
+        - shallow: 'a' is copy of the value 2, but 'b', 'c' and 'd' are just the same references as in the original object.
+        - deep: duplicates 'a', 'b', 'c' and 'd', but 'c' has reference to 'obj2' and 'obj' in it.
+        -- should they be duplicated or reference-preserved (circular reference -> infinite circular duplication)?
+        --- should we detect a circular ref and just break the circular traversal (leaving the deep element not fully duplicated)?
+        --- should we error?
+        --- something in between?
+        - One solution (for JSON-safe objs) is to serialise an obj as a JSON string and then re-parse it to an obj.
+    `, JSON.parse(JSON.stringify(obj2)));
+    console.log(`
+        - shallow copying is more much more straight-forward and has more easily agreeable sematics.
+        -- ES6 has now defined Object.assign that takes a target obj, and one or more sources, and it
+           iterates over all the enumerable, owned keys (immediately present) on the source object(s) and them
+           (via assignment) to the target.
+    `, Object.assign({}, obj2, obj3));
 
     console.log(`
-        Property Descriptors: TODO
+        Property Descriptors:
+        - Pre ES5 there was no direct way to introspect or draw distinctions between the characteristics of obj properties,
+          such as whether the prop was read-only or not.
+        - Props can now be described in terms of a Property Descriptor (value, writable, enumerable, configuarable)
+        -- we can fetch the descriptor with Object.getOwnPropertyDescriptor
+    `, Object.getOwnPropertyDescriptor(obj, 'a'));
+    console.log(`
+        - We can use Object.defineProperty to add a new or modify an existing one (if its configuarable) with the desired
+          characteristics.
+    `, Object.defineProperty(obj, 'b', {value:3, writable:true, configurable:true, enumerable:true}));
+    console.log(`
+        TODO - explain writable, configurable and enumerable
     `);
 
     console.log(`
         Property Existence: TODO
-    `);
-
-    console.log(`
-        Class Theory: TODO
-    `);
-
-    console.log(`
-        Class Mechanics: TODO
     `);
 };
