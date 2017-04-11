@@ -132,10 +132,35 @@ export default () => {
           characteristics.
     `, Object.defineProperty(obj, 'b', {value:3, writable:true, configurable:true, enumerable:true}));
     console.log(`
-        TODO - explain writable, configurable and enumerable
+        -  'writable' determines whether we can change the value of the prop
+        -- attempting to modify the value will silently fail. In strict mode it TypeError will be thrown.
+    `, Object.defineProperty(obj, 'c', {value:'c', writable:false, configurable:true, enumerable:true}), obj.c);
+    console.log(`
+        - 'configurable' determines whether we can subsequently call 'defineProperty' on the prop again.
+        -- subsequently 'defineProperty' calls will throw TypeErrors.
+        -- NOTE: this prevents 'delete'-ing the prop from the object.
+        -- NOTE: as you would expect, this cannot be undone.
+        - 'enumerable' determines whether a prop will be enumerated by certain object-prop enumerations (like for-in).
     `);
 
     console.log(`
-        Property Existence: TODO
+        (Shallow) Object Immutability:
+        - Constant props: we can simply use defineProperty to set a non-writable and non-configurable prop.
+        - Preventing the adding of props: Object.preventExtensions will forbid additional props being added to the given object.
+        -- attempting to add additional props will silently fail. In strict mode it TypeError will be thrown.
+    `, Object.preventExtensions(obj));
+    console.log(`
+        - (Shallow) constant obj: Object.freeze will set 'configurable' and 'writable' to false for all of the objs props.
+        -- this will ensure immutability on the obj's direct properties. We would need to recursively call this to deeply
+           freeze the obj.
+    `, Object.freeze(obj));
+
+    console.log(`
+        Getters/Setters: (TODO)
     `);
+
+    console.log(`
+        Property Existence: (TODO)
+    `);
+
 };
