@@ -156,11 +156,51 @@ export default () => {
     `, Object.freeze(obj));
 
     console.log(`
-        Getters/Setters: (TODO)
+        GET:
+         - 'get()': when using the dot notation to access a property a 'get' operation is actually performed.
+         - the default built-in 'get' will:
+         -- first inspect for the requested name, and if it finds it, it will return its value.
+         -- if it doesn't, it will traverse the object's prototype chain (if it has one).
+         -- if this is unsuccessful the value will be returned as 'undefined'.
+    `, obj.lololol);
+    console.log(`
+        SET:
+        - 'set()': there is also a default 'set' operation perfomed when attempting to set property values.
+        - the default built-in 'set' will:
+        -- if the prop is already present, check is the property an accessor descriptor, if so call the setter, if any.
+        -- is the prop a data descriptor with a false 'writable', if so throw in strict mode, if fail silently.
+        -- otherwise, set the value to the existing prop.
+        -- if the prop is not yet present, set it on the prototype-chain.
     `);
 
+    const obj4 = {
+        get a() {
+            return 3;
+        },
+        set a(val) {
+            this._a_ = this._a_ * val;
+        },
+        b: undefined,
+        c: null
+    };
+    obj4.a = 2;
     console.log(`
-        Property Existence: (TODO)
-    `);
+        Custom GET/SET:
+        - ES5 introduced a means to override the default get/set operations on a per-prop basis.
+        - When you define a prop to have a getter and/or setter its definition becomes an 'accessor descriptor'
+          rather than a 'data descriptor'. Meaning the 'value' and 'writable' characteristics of the descriptor
+          are ignored in favour of the 'get'/'set' fns.
+    `, obj4.a);
+
+    console.log(`
+        Property Existence:
+        - We can ask an object if it has a prop without calling the 'get' operation.
+        -- the 'in' operator allows us check if the prop is present in the object or at any
+           higher-level in its prototype-chain.
+    `, ('a' in obj4), ('b' in obj4), ('c' in obj4), ('d' in obj4));
+    console.log(`
+        -- 'hasOwnProperty' will allow us check if a prop is on the object or not (and it will not check the
+           prototype-chain)
+    `, obj4.hasOwnProperty('a'), obj4.hasOwnProperty('b'), obj4.hasOwnProperty('c'), obj4.hasOwnProperty('d'));
 
 };
