@@ -4,6 +4,7 @@ import cardGameDemo from './app/cardGame';
 import scopeDemo from './app/scope';
 import mathDemo from './app/math';
 import objectsDemo from './app/objects';
+import ooDemo from './app/oo';
 
 console.log('Arrays Demo:');
 arraysDemo();
@@ -22,3 +23,6 @@ mathDemo();
 
 console.log('Objects Demo:');
 objectsDemo();
+
+console.log('OO Demo:');
+ooDemo();
