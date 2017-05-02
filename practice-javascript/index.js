@@ -5,6 +5,7 @@ import scopeDemo from './app/scope';
 import mathDemo from './app/math';
 import objectsDemo from './app/objects';
 import ooDemo from './app/oo';
+import quickSortDemo from './app/sorting/quickSort';
 
 console.log('Arrays Demo:');
 arraysDemo();
@@ -26,3 +27,6 @@ objectsDemo();
 
 console.log('OO Demo:');
 ooDemo();
+
+console.log('Quick Sort Demo:');
+quickSortDemo();
