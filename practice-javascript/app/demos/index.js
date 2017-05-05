@@ -5,7 +5,8 @@ import scopeDemo from './scope';
 import mathDemo from './math';
 import objectsDemo from './objects';
 import ooDemo from './oo';
-import quickSortDemo from './sorting/quickSort';
+import sortingDemos from './sorting';
+import searchingDemos from './searching';
 
 export default () => {
     console.log('Arrays Demo:');
@@ -29,6 +30,9 @@ export default () => {
     console.log('OO Demo:');
     ooDemo();
 
-    console.log('Quick Sort Demo:');
-    quickSortDemo();
+    console.log('Sorting Demo:');
+    sortingDemos();
+
+    console.log('Searching Demo:');
+    searchingDemos();
 };
