@@ -6,5 +6,5 @@ export default () => {
     console.log('TODO: Note sudo-code and steps here!');
 
     const a = [1, 0, 5, 10, 7, 3];
-    console.log('Binary search:', a, 5, ": ", binarySearch(a, 5));
+    console.log('Binary search:', a, 5, ': ', binarySearch(a, 5));
 };
