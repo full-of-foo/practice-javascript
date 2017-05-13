@@ -7,6 +7,7 @@ import objectsDemo from './objects';
 import ooDemo from './oo';
 import sortingDemos from './sorting';
 import searchingDemos from './searching';
+import problemDemos from './problems';
 
 export default () => {
     console.log('Arrays Demo:');
@@ -35,4 +36,7 @@ export default () => {
 
     console.log('Searching Demo:');
     searchingDemos();
+
+    console.log('Problem Demos:');
+    problemDemos();
 };
